@@ -1,0 +1,25 @@
+<script>
+const ws = new WebSocket("ws://localhost:443/")
+let userID = ""
+
+ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    if (data.type === "message") {
+        console.log("[" + data.userID + "]{to " + data.recipient + "}//" + data.text)
+    }
+    if (data.type === "userID") {
+        userID = data.text
+        console.log("UserID: " + userID)
+    }
+    if (data.type === "ping") {
+        ws.send(JSON.stringify({"type": "pong", "userID": userID}))
+    }
+}
+
+function sendData() {
+    const text = document.getElementById("input").value
+    const recipient = document.getElementById("recipient").value
+    const data = {"type": "message", "userID": userID,"recipient": recipient, "text": text}
+    ws.send(JSON.stringify(data))
+}
+</script>

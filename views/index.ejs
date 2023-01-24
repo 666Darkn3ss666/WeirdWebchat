@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include("style.ejs"); %>
+    
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">Hello there!</h1>
+        <input class="input" id="input" type="text">
+        <input class="recipient" id="recipient" type="text">
+        <button class="btn" onclick="sendData()">Send</button>
+    </div>
+    <%- include("main.ejs"); %>
+</body>
+</html>
