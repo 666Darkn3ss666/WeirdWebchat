@@ -29,13 +29,16 @@ wss.on("connection", (ws) => {
     displayUsers()
     ws.send(JSON.stringify({"type": "userID", "text": userID}))
     verifiedUsers[verifiedUsers.length] = userID
+    let newUserText = "User " + userID + " connected"
+    connections.forEach((user) => {
+        user.ws.send(JSON.stringify({"type": "message", "userID": "SERVER", "recipient": "all", "text": newUserText}))
+    })
 
     ws.on("message", (event) => {
         const data = JSON.parse(event)
         if (data.type === "message") {
-            console.log("[" + data.userID + "]{to " + data.recipient + "}//" + data.text)}
+            console.log("[" + data.userID + "]{to " + data.recipient + "} " + data.text)}
             if (data.recipient != "all") {
-                console.log(connections)
                 connections.forEach((user) => {
                     if (user.userID == data.recipient) {
                         user.ws.send(JSON.stringify({"type": "message", "userID": data.userID, "recipient": data.recipient, "text": data.text}))
@@ -73,6 +76,11 @@ wss.on("connection", (ws) => {
             })
             if (found === false) {
                 console.log("User " + user.userID + " deleted")
+                let oldUser = user.userID
+                let oldUserText = "User " + oldUser + " disconnected"
+                connections.forEach((user) => {
+                    user.ws.send(JSON.stringify({"type": "message", "userID": "SERVER", "recipient": "all", "text": oldUserText}))
+                })
                 connections.delete(user)
             }
         })

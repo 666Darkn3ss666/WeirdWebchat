@@ -6,11 +6,19 @@
     
 </head>
 <body>
-    <div class="header">
-        <h1 class="title">Hello there!</h1>
-        <input class="input" id="input" type="text">
-        <input class="recipient" id="recipient" type="text">
-        <button class="btn" onclick="sendData()">Send</button>
+    <div class="page">
+        <div class="header">
+            <h1 class="title">Weird Webchat</h1>
+            <p class="id" id="id">Your ID: </p>
+        </div>
+        <div class="messageContainer" id="messageContainer">
+
+        </div>
+        <div class="footer">
+            <input class="input" id="input" placeholder="Type your message here">
+            <input class="input" id="recipient" placeholder="Type userID or 'all' here">
+            <button class="btn" onclick="sendData()">Send</button>
+        </div>
     </div>
     <%- include("main.ejs"); %>
 </body>

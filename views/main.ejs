@@ -5,10 +5,12 @@ let userID = ""
 ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
     if (data.type === "message") {
-        console.log("[" + data.userID + "]{to " + data.recipient + "}//" + data.text)
+        console.log("[" + data.userID + "]{to " + data.recipient + "} " + data.text)
+        createMsg(data.userID, data.recipient, data.text)
     }
     if (data.type === "userID") {
         userID = data.text
+        idDisplay.innerHTML = "Your ID: " + userID
         console.log("UserID: " + userID)
     }
     if (data.type === "ping") {
@@ -22,4 +24,17 @@ function sendData() {
     const data = {"type": "message", "userID": userID,"recipient": recipient, "text": text}
     ws.send(JSON.stringify(data))
 }
+
+const msgContainer = document.getElementById("messageContainer")
+const idDisplay = document.getElementById("id")
+
+function createMsg(from, to, text) {
+    let elem = document.createElement("p")
+    let data = "[" + from + "]{to " + to + "} " + text
+    elem.innerHTML = data
+    elem.classList.add("msg")
+    msgContainer.appendChild(elem)
+}
+
+createMsg("SERVER", "all", "Welcome to Weird Webchat!")
 </script>
